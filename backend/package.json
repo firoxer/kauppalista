@@ -1,0 +1,15 @@
+{
+  "name": "kauppalista-backend",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "serve": "node src/index.js"
+  },
+  "dependencies": {
+    "minimal-json-patch": "firoxer/minimal-json-patch#master",
+    "ws": "^7.3.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.5"
+  }
+}

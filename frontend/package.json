@@ -1,0 +1,13 @@
+{
+  "name": "kauppalista-frontend",
+  "version": "0.0.1",
+  "scripts": {
+    "serve-dev": "node dev-server.js"
+  },
+  "devDependencies": {
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-react": "^7.21.2",
+    "prettier": "^2.1.2"
+  }
+}

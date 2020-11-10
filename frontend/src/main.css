@@ -1,0 +1,55 @@
+html,
+body,
+main,
+#root {
+  margin: 0;
+}
+
+html {
+  font-size: 32px; /* Defined here for `rem` */
+  font-family: 'Rubik', sans-serif;
+}
+
+@media (max-width: 1200px) {
+  html {
+    font-size: 28px;
+  }
+
+  /* To scale icons */
+  svg {
+    transform: scale(0.875);
+  }
+}
+
+@media (max-width: 800px) {
+  html {
+    font-size: 24px;
+  }
+
+  svg {
+    transform: scale(0.75);
+  }
+}
+
+/* Remove fugly outlines */
+input::-moz-focus-inner,
+button::-moz-focus-inner {
+  border: 0;
+}
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+input,
+button:focus {
+  outline: none;
+}
+
+/* Center buttons' content even when overflowing */
+button:before {
+  content: '';
+  margin-left: -100%;
+}
+button:after {
+  content: '';
+  margin-right: -100%;
+}
