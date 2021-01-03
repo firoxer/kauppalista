@@ -9,6 +9,7 @@ import LeftArrowIcon from './ui/icons/LeftArrowIcon.js';
 import PlusIcon from './ui/icons/PlusIcon.js';
 import WidePage from './ui/WidePage.js';
 import colors from './ui/colors.js';
+import { shuffle } from '../util.js';
 import { translate } from '../services/translate.js';
 
 const Column = createCssComponent('div', `
@@ -47,7 +48,7 @@ const AddButton = IconButton.extend(`
 `);
 
 export default function Recipes({ list }) {
-  const renderedRecipes =
+  let renderedRecipes =
     Object.keys(list.recipes).length === 0
       ? html`<${Placeholder}>${translate('there are no recipes...')}<//>`
       : Object.values(list.recipes).map((recipe) => html`
@@ -55,6 +56,8 @@ export default function Recipes({ list }) {
           ${recipe.name}
         <//>
       `);
+
+  shuffle(renderedRecipes);
 
   return html`
     <${WidePage}>
