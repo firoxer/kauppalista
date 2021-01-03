@@ -1,4 +1,4 @@
-import { html, useContext, useState } from 'https://unpkg.com/htm@3.0.4/preact/standalone.module.js';
+import { html, useContext, useEffect, useRef, useState } from 'https://unpkg.com/htm@3.0.4/preact/standalone.module.js';
 import { createCssComponent } from '../lib/css-component.js';
 import { navigateTo } from '../lib/use-url-path.js';
 
@@ -42,6 +42,14 @@ export default function AddRecipe({ list }) {
 
   const [input, setInput] = useState('');
 
+  const inputElement = useRef(null);
+
+  useEffect(() => {
+    if (inputElement.current) {
+      inputElement.current.base.focus();
+    }
+  }, []);
+
   const submit = async (ev) => {
     ev.preventDefault();
 
@@ -70,9 +78,9 @@ export default function AddRecipe({ list }) {
 
           <${TextInput}
             autocapitalize="off"
-            autofocus
             placeholder=${translate('name of recipe')}
             onKeyUp=${(ev) => setInput(ev.target.value)}
+            ref=${inputElement}
             value=${input}
           />
 

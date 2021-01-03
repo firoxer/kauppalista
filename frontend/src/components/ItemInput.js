@@ -68,7 +68,6 @@ const Autocompletion = FullWidthButton.extend(`
 `);
 
 export default function ItemInput({
-  autofocus = false,
   autocomplete: autocompletionEnabled = true,
   list,
   onInput
@@ -125,7 +124,6 @@ export default function ItemInput({
       <${Form} onSubmit=${onFormSubmit}>
         <${Input}
           autocapitalize="off"
-          autofocus=${autofocus}
           ref=${inputRef}
           placeholder=${translate('add item')}
           onKeyUp=${(ev) => setInput(ev.target.value)}

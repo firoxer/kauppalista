@@ -1,4 +1,4 @@
-import { html, useContext, useState } from 'https://unpkg.com/htm@3.0.4/preact/standalone.module.js';
+import { html, useContext, useEffect, useRef, useState } from 'https://unpkg.com/htm@3.0.4/preact/standalone.module.js';
 import { createCssComponent } from '../lib/css-component.js';
 import { navigateTo } from '../lib/use-url-path.js';
 
@@ -43,6 +43,14 @@ export default function AddList() {
 
   const [input, setInput] = useState('');
 
+  const inputElement = useRef(null);
+
+  useEffect(() => {
+    if (inputElement.current) {
+      inputElement.current.base.focus();
+    }
+  }, []);
+
   const submit = async (ev) => {
     ev.preventDefault();
 
@@ -72,9 +80,9 @@ export default function AddList() {
 
           <${TextInput}
             autocapitalize="off"
-            autofocus
             placeholder="${translate('name of list')}"
             onKeyUp=${(ev) => setInput(ev.target.value)}
+            ref=${inputElement}
             value=${input}
           />
 
