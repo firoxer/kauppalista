@@ -30,8 +30,7 @@ const StickyContainer = createCssComponent('div', `
 const CloseButton = IconButton.extend(`
   background-color: ${colors.tertiary};
   position: absolute;
-  right: 0;
-  top: -3rem;
+  top: -2.5rem;
 `, html`
   <${CrossIcon} color=${colors.tertiaryText} />
 `);
