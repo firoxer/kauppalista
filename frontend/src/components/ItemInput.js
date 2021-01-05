@@ -5,6 +5,7 @@ import { autocomplete } from '../lib/autocomplete.js';
 import FullWidthButton from './ui/buttons/FullWidthButton.js';
 import CrossIcon from './ui/icons/CrossIcon.js';
 import IconButton from './ui/buttons/IconButton.js';
+import RightArrowIcon from './ui/icons/RightArrowIcon.js';
 import TextInput from './ui/TextInput.js';
 import colors from './ui/colors.js';
 import { translate } from '../services/translate.js';
@@ -49,6 +50,12 @@ const Form = createCssComponent('form', `
 
 const Input = TextInput.extend(`
   background-color: ${colors.backgroundAccented};
+`);
+
+const SubmitButtonContainer = createCssComponent('div', `
+  margin-top: 0.25rem;
+  right: 1rem;
+  position: absolute;
 `);
 
 const AutocompletionList = createCssComponent('div', `
@@ -121,6 +128,12 @@ export default function ItemInput({
         : html`<${CloseButtonPlaceholder} />`}
 
       <${Form} onSubmit=${onFormSubmit}>
+        ${isFocused && html`
+          <${SubmitButtonContainer} onClick=${onFormSubmit}>
+            <${RightArrowIcon} color=${colors.text} />
+          <//>
+        `}
+
         <${Input}
           autocapitalize="off"
           ref=${inputRef}
