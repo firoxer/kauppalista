@@ -4,6 +4,7 @@ import { navigateTo } from '../lib/use-url-path.js';
 import { sha256 } from '../lib/sha256.js';
 
 import Button from './ui/buttons/Button.js';
+import CallbackOnViewing from './ui/CallbackOnViewing.js';
 import CrossIcon from './ui/icons/CrossIcon.js';
 import Header from './ui/Header.js';
 import IconButton from './ui/buttons/IconButton.js';
@@ -137,6 +138,8 @@ export default function List({ list }) {
 
   const [selectedItemId, selectItemId] = useState(null);
 
+  const [longDoneItemsRendered, setLongDoneItemsRendered] = useState(0);
+
   const currentTime = new Date().valueOf();
   const newerThanOneDay = (time) => currentTime - time < 86400000;
 
@@ -215,6 +218,7 @@ export default function List({ list }) {
     Object.values(list.items)
       .filter(({ doneAt }) => doneAt !== null && !newerThanOneDay(doneAt))
       .sort((a, b) => b.doneAt - a.doneAt)
+      .slice(0, longDoneItemsRendered)
       .map((item) =>
         selectedItemId === item.id
           ? html`
@@ -239,14 +243,6 @@ export default function List({ list }) {
           `
       );
 
-  if (
-    renderedUndoneItems.length
-    + renderedFreshlyDoneItems.length
-    + renderedLongDoneItems.length
-    < Object.values(list.items).length) {
-    console.debug('Some items are not rendered -- this should not be possible');
-  }
-
   const onItemInput = async (input) => {
     const createdAt = new Date().valueOf();
 
@@ -258,6 +254,10 @@ export default function List({ list }) {
     };
 
     dispatch(patches.addItemToList(list.id, item));
+  };
+
+  const renderMoreLongDoneItems = () => {
+    setLongDoneItemsRendered(longDoneItemsRendered + 10);
   };
 
   return html`
@@ -281,6 +281,8 @@ export default function List({ list }) {
       ${renderedUndoneItems}
       ${renderedFreshlyDoneItems}
       ${renderedLongDoneItems}
+
+      <${CallbackOnViewing} callback=${renderMoreLongDoneItems} />
     <//>
   `;
 }
