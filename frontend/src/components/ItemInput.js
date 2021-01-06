@@ -87,6 +87,7 @@ export default function ItemInput({
   };
 
   const defocus = () => {
+    setInput('');
     setIsFocused(false);
   };
 
