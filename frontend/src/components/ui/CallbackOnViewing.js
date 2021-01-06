@@ -11,17 +11,16 @@ export default function CallbackOnViewing({ callback }) {
     };
 
     const observer = new IntersectionObserver(onObservation, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.25,
-    })
+      root: null, // Defaults to viewport
+    });
 
     observer.observe(triggerElement.current);
 
     return () => observer.unobserve(triggerElement.current);
   })
 
+  // HACK: Without the \u00A0, mobile Firefox won't render the element
   return html`
-    <div style=${{ height: 0 }} ref=${triggerElement} />
+    <div ref=${triggerElement}>\u00A0</div>
   `;
 }
