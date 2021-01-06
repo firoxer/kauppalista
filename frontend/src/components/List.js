@@ -133,6 +133,8 @@ const ItemUndoButton = ItemButton.extend(`
   <${OkIcon} color=${colors.secondaryText} />
 `);
 
+const LONG_DONE_ITEMS_PER_LAZY_LOAD = 50;
+
 export default function List({ list }) {
   const { dispatch } = useContext(context);
 
@@ -257,7 +259,7 @@ export default function List({ list }) {
   };
 
   const renderMoreLongDoneItems = () => {
-    setLongDoneItemsRendered(longDoneItemsRendered + 10);
+    setLongDoneItemsRendered(longDoneItemsRendered + LONG_DONE_ITEMS_PER_LAZY_LOAD);
   };
 
   return html`
@@ -279,10 +281,13 @@ export default function List({ list }) {
       <${ItemInput} list=${list} onInput=${onItemInput} />
 
       ${renderedUndoneItems}
-      ${renderedFreshlyDoneItems}
-      ${renderedLongDoneItems}
 
+      ${renderedFreshlyDoneItems}
+
+      <!-- The lazy load trigger is rendered early to smoothen scrolling -->
+      ${renderedLongDoneItems.slice(0, renderMoreLongDoneItems.length - LONG_DONE_ITEMS_PER_LAZY_LOAD)}
       <${CallbackOnViewing} callback=${renderMoreLongDoneItems} />
+      ${renderedLongDoneItems.slice(renderMoreLongDoneItems.length - LONG_DONE_ITEMS_PER_LAZY_LOAD)}
     <//>
   `;
 }
