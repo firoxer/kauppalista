@@ -5,7 +5,7 @@ import colors from '../ui/colors.js';
 export default createCssComponent('input', `
   background-color: ${colors.background};
   border: none;
-  border-bottom: .175rem solid hsl(0, 0%, 0%);
+  border-bottom: 0.175rem solid hsl(0, 0%, 0%);
   box-sizing: border-box;
   color: inherit;
   font: inherit;
