@@ -140,7 +140,7 @@ export default function List({ list }) {
 
   const [selectedItemId, selectItemId] = useState(null);
 
-  const [longDoneItemsRendered, setLongDoneItemsRendered] = useState(0);
+  const [longDoneItemsRendered, setLongDoneItemsRendered] = useState(LONG_DONE_ITEMS_PER_LAZY_LOAD);
 
   const currentTime = new Date().valueOf();
   const newerThanOneDay = (time) => currentTime - time < 86400000;
