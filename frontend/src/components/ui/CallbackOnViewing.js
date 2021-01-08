@@ -21,6 +21,6 @@ export default function CallbackOnViewing({ callback }) {
 
   // HACK: Without the \u00A0, mobile Firefox won't render the element
   return html`
-    <div ref=${triggerElement}>\u00A0</div>
+    <div style=${{ position: 'absolute' }} ref=${triggerElement}>\u00A0</div>
   `;
 }
