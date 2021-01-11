@@ -140,7 +140,7 @@ export default function List({ list }) {
 
   const [selectedItemId, selectItemId] = useState(null);
 
-  const [longDoneItemsRendered, setLongDoneItemsRendered] = useState(LONG_DONE_ITEMS_PER_LAZY_LOAD);
+  const [longDoneItemsToRender, setLongDoneItemsToRender] = useState(LONG_DONE_ITEMS_PER_LAZY_LOAD);
 
   const currentTime = new Date().valueOf();
   const newerThanOneDay = (time) => currentTime - time < 86400000;
@@ -216,11 +216,14 @@ export default function List({ list }) {
           `
       );
 
-  const renderedLongDoneItems =
+  const longDoneItems =
     Object.values(list.items)
       .filter(({ doneAt }) => doneAt !== null && !newerThanOneDay(doneAt))
-      .sort((a, b) => b.doneAt - a.doneAt)
-      .slice(0, longDoneItemsRendered)
+      .sort((a, b) => b.doneAt - a.doneAt);
+
+  const renderedLongDoneItems =
+    longDoneItems
+      .slice(0, longDoneItemsToRender)
       .map((item) =>
         selectedItemId === item.id
           ? html`
@@ -258,9 +261,11 @@ export default function List({ list }) {
     dispatch(patches.addItemToList(list.id, item));
   };
 
-  const renderMoreLongDoneItems = () => {
-    setLongDoneItemsRendered(longDoneItemsRendered + LONG_DONE_ITEMS_PER_LAZY_LOAD);
-  };
+  let lazyLoadTrigger = null;
+  if (longDoneItems.length > renderedLongDoneItems.length) {
+    const callback = () => setLongDoneItemsToRender(longDoneItemsToRender + LONG_DONE_ITEMS_PER_LAZY_LOAD);
+    lazyLoadTrigger = html`<${CallbackOnViewing} callback=${callback} />`;
+  }
 
   return html`
     <${WidePage}>
@@ -285,9 +290,9 @@ export default function List({ list }) {
       ${renderedFreshlyDoneItems}
 
       <!-- The lazy load trigger is rendered early to smoothen scrolling -->
-      ${renderedLongDoneItems.slice(0, renderMoreLongDoneItems.length - LONG_DONE_ITEMS_PER_LAZY_LOAD)}
-      <${CallbackOnViewing} callback=${renderMoreLongDoneItems} />
-      ${renderedLongDoneItems.slice(renderMoreLongDoneItems.length - LONG_DONE_ITEMS_PER_LAZY_LOAD)}
+      ${renderedLongDoneItems.slice(0, renderedLongDoneItems.length - LONG_DONE_ITEMS_PER_LAZY_LOAD)}
+      ${lazyLoadTrigger}
+      ${renderedLongDoneItems.slice(renderedLongDoneItems.length - LONG_DONE_ITEMS_PER_LAZY_LOAD)}
     <//>
   `;
 }
