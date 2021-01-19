@@ -6,7 +6,7 @@
     "serve": "node src/index.js"
   },
   "dependencies": {
-    "minimal-json-patch": "firoxer/minimal-json-patch#master",
+    "@firoxer/minimal-json-patch": "^1.0.0",
     "ws": "^7.3.1"
   },
   "devDependencies": {

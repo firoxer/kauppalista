@@ -1,6 +1,6 @@
 import { createContext } from 'https://unpkg.com/htm@3.0.4/preact/standalone.module.js';
 
-import * as jsonPatch from './lib/json-patch.js';
+import * as jsonPatch from './lib/minimal-json-patch.js';
 
 let onPatch = (_) => void 0;
 
@@ -87,7 +87,7 @@ export function applyPatch(state, patch) {
   console.debug('patching', patch);
 
   try {
-    const newState = jsonPatch.apply(state, patch);
+    const newState = jsonPatch.applyPatch(state, patch);
 
     console.debug('new state', newState);
 
