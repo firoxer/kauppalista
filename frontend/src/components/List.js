@@ -1,7 +1,8 @@
-import { html, useContext, useState } from 'https://unpkg.com/htm@3.0.4/preact/standalone.module.js';
+import { html, useContext, useEffect, useState } from 'https://unpkg.com/htm@3.0.4/preact/standalone.module.js';
 import { createCssComponent } from '../lib/css-component.js';
 import { navigateTo } from '../lib/use-url-path.js';
 import { sha256 } from '../lib/sha256.js';
+import { useWakeLock } from '../lib/use-wake-lock.js';
 
 import Button from './ui/buttons/Button.js';
 import CallbackOnViewing from './ui/CallbackOnViewing.js';
@@ -137,6 +138,8 @@ const LONG_DONE_ITEMS_PER_LAZY_LOAD = 50;
 
 export default function List({ list }) {
   const { dispatch } = useContext(context);
+
+  useWakeLock();
 
   const [selectedItemId, selectItemId] = useState(null);
 
